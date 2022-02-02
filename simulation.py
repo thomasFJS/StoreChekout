@@ -37,31 +37,31 @@ class StoreCheckout(pygame.sprite.Sprite):
         """
         pygame.draw.rect(screen, self.color, pygame.Rect(self.x, self.y, self.width, self.height))
         
-class Client(pygame.sprite.Sprite):
-    """
-    Class to keep track of a client's location and vector.
-    """
-    def __init__(self):
-        super().__init__()
-        self.x = random.randrange(CLIENT_SIZE, SCREEN_WIDTH - CLIENT_SIZE)
-        self.y = random.randrange(CLIENT_SIZE, SCREEN_HEIGHT - CLIENT_SIZE)
-        self.size = 25
-        self.color = WHITE
-        self.change_x = random.randrange(-2, 3)
-        self.change_y = random.randrange(-2, 3)
-
-    def draw(self, screen):
-        """
-        Function to draw client.
-        """
-        pygame.draw.circle(screen, self.color, [self.x, self.y], self.size)
+##class Client(pygame.sprite.Sprite):
+##    """
+##    Class to keep track of a client's location and vector.
+##    """
+##    def __init__(self):
+##        super().__init__()
+##        self.x = random.randrange(CLIENT_SIZE, SCREEN_WIDTH - CLIENT_SIZE)
+##        self.y = random.randrange(CLIENT_SIZE, SCREEN_HEIGHT - CLIENT_SIZE)
+##        self.size = 25
+##        self.color = WHITE
+##        self.change_x = random.randrange(-2, 3)
+##        self.change_y = random.randrange(-2, 3)
+##
+##    def draw(self, screen):
+##        """
+##        Function to draw client.
+##        """
+##        pygame.draw.circle(screen, self.color, [self.x, self.y], self.size)
 
 
 def generate_new_client():
     """
     Function to make a new, random client.
     """
-    newclient = Client()
+    newclient = Client(WHITE, CLIENT_SIZE,CLIENT_SIZE)
     # Starting position of the client.
     # Take into account the client size so we don't spawn on the edge.
     newclient.x = random.randrange(CLIENT_SIZE, SCREEN_WIDTH - CLIENT_SIZE)
