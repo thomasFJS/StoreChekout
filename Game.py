@@ -16,7 +16,9 @@ class Game(object):
     def __init__(self):
         #Create sprite lists
         self.all_sprites_list = pygame.sprite.Group()
+        self.clients_sprites_list = pygame.sprite.Group()
         self.client = Client()
+        self.clients_sprites_list.add(self.client)
         self.all_sprites_list.add(self.client)
         self.number = 1
         self.buttons = []
@@ -53,6 +55,10 @@ class Game(object):
             to close the window. """
  
         for event in pygame.event.get():
+            if event.type == pygame.USEREVENT:
+                for c in self.clients_sprites_list:
+                    c.counter-=1
+                    print(c.counter)
             if event.type == pygame.QUIT:
                 return True
  
