@@ -18,6 +18,7 @@ class Game(object):
         #Create sprite lists
         self.all_sprites_list = pygame.sprite.Group()
         self.clients_sprites_list = pygame.sprite.Group()
+        self.checkout_sprites_list = pygame.sprite.Group()
         #self.client = Client()
         #self.clients_sprites_list.add(self.client)
         #self.all_sprites_list.add(self.client)
@@ -34,6 +35,7 @@ class Game(object):
         self.buttons.append(btnAddHours)
         self.buttons.append(btnStart)
         self.hour_pass_event = pygame.USEREVENT+1
+        self.go_checkout_event = pygame.USEREVENT+2
         pygame.time.set_timer(self.hour_pass_event, 60000)
 
         for i in range(13):
@@ -42,6 +44,7 @@ class Game(object):
             storeCheckout.rect.x = 0
             storeCheckout.rect.y = (i*60+10)
             
+            self.checkout_sprites_list.add(storeCheckout)
             self.all_sprites_list.add(storeCheckout)
 
     
@@ -71,15 +74,24 @@ class Game(object):
     def process_events(self):
         """ Process all of the events. Return a "True" if we need
             to close the window. """
- 
+
         for event in pygame.event.get():
             if event.type == pygame.USEREVENT:
                 for c in self.clients_sprites_list:
-                    if c.counter <= 0:
+                    if c.counter <= 0 or c.shoppingFinished == True:
                         c.color = constants.RED
+                        c.shoppingFinished = True
+                        c.counter+=1
+                        pygame.time.set_timer(self.go_checkout_event, 250)
+                        #c.goCheckout(self.checkout_sprites_list)
                     else:    
                         c.counter-=1
-                    print(c.counter)
+                        c.color = pygame.Color(c.counter*2,c.counter*2,c.counter*2)
+                   # print(c.counter)
+            if event.type == self.go_checkout_event:
+                for c in self.clients_sprites_list:
+                    if c.shoppingFinished == True :
+                        c.goCheckout(self.checkout_sprites_list)
             if event.type == self.hour_pass_event:
                 self.index +=1
                 self.add_clients(constants.NB_CLIENT_BY_HOUR[self.index])
@@ -95,7 +107,7 @@ class Game(object):
 
     def display_frame(self, screen):
         """ Display everything to the screen for the game. """
-        screen.fill(constants.BLACK)
+        screen.fill(constants.WHITE)
         self.all_sprites_list.draw(screen)
         for b in self.buttons:
             b.draw(screen)

@@ -22,7 +22,7 @@ def main():
     
     done = False
     clock = pygame.time.Clock()
-
+    pygame.time.set_timer(pygame.USEREVENT, 1000)
     game = Game()
 
     while not done:
