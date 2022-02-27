@@ -1,6 +1,7 @@
 import pygame,sys
 
 class Button:
+    """ Button object """
     def __init__(self,text,width,height,pos,elevation,click):
         self.pressed = False
         self.elevation = elevation
